@@ -13,7 +13,7 @@ ms.prod:  powershell
 
 > Applies To: Windows PowerShell 5.0
 
-Each target node has to be told to use pull mode and given the URL where it can contact the pull server to get configurations. To do this, you have to configure the Local Configuration Manager (LCM) with the necessary information. To configure the LCM, you create a special type of configuration, derated with the **DSCLocalConfigurationManager** attribute. For more information about configuring the LCM, see [Configuring the Local Configuration Manager](metaConfig.md).
+Each target node has to be told to use pull mode and given the URL where it can contact the pull server to get configurations. To do this, you have to configure the Local Configuration Manager (LCM) with the necessary information. To configure the LCM, you create a special type of configuration using the **DSCLocalConfigurationManager** attribute. For more information about configuring the LCM, see [Configuring the Local Configuration Manager](metaConfig.md).
 
 > **Note**: This topic applies to PowerShell 5.0. For information on setting up a pull client in PowerShell 4.0, see [Setting up a pull client using configuration ID in PowerShell 4.0](pullClientConfigID4.md)
 
@@ -69,7 +69,7 @@ configuration PullClientConfigID
             RefreshFrequencyMins = 30 
             RebootNodeIfNeeded = $true
         }
-        ConfigurationRepositoryWeb SMBPullServer
+        ConfigurationRepositoryShare SMBPullServer
         {
             SourcePath = '\\SMBPullServer\PullSource'
             
@@ -85,8 +85,7 @@ If you specify only a **ConfigurationRepositoryWeb** or **ConfigurationRepositor
 resources from the specified server, but it will not send reports to it. You can use a single pull server for configurations, resources, and reporting, but you have to create a 
 **ReportRepositoryWeb** block to set up reporting. 
 
-The following example shows a metaconfiguration that sets up a client to pull configurations and resources, and send reporting data, to a single
-pull server.
+The following example shows a metaconfiguration that sets up a client to pull configurations and resources from and send reporting data to a single pull server.
 
 ```powershell
 [DSCLocalConfigurationManager()]
@@ -145,12 +144,12 @@ configuration PullClientConfigID
         
         ResourceRepositoryWeb CONTOSO-ResourceSrv
         {
-            ServerURL = 'https://CONTOSO-REsourceSrv:8080/PSDSCPullServer.svc'
+            ServerURL = 'https://CONTOSO-ResourceSrv:8080/PSDSCPullServer.svc'
         }
 
         ReportServerWeb CONTOSO-ReportSrv
         {
-            ServerURL = 'https://CONTOSO-REsourceSrv:8080/PSDSCPullServer.svc'
+            ServerURL = 'https://CONTOSO-ReportSrv:8080/PSDSCPullServer.svc'
         }
     }
 }
